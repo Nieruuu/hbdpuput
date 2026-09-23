@@ -26,7 +26,10 @@ export function StoryChrome() {
    element.volume = content.music.volume;
    const removeListeners = () => {
      document.removeEventListener("click", startOnInteraction);
+     document.removeEventListener("pointerdown", startOnInteraction);
+     document.removeEventListener("touchstart", startOnInteraction);
      document.removeEventListener("keydown", startOnInteraction);
+     document.removeEventListener("scroll", startOnInteraction);
    };
    const attemptPlay = async () => {
      if (cancelled || musicControlled.current) return;
@@ -44,7 +47,10 @@ export function StoryChrome() {
      void attemptPlay();
    }
    document.addEventListener("click", startOnInteraction);
+   document.addEventListener("pointerdown", startOnInteraction, { passive: true });
+   document.addEventListener("touchstart", startOnInteraction, { passive: true });
    document.addEventListener("keydown", startOnInteraction);
+   document.addEventListener("scroll", startOnInteraction, { passive: true });
    void attemptPlay();
    return () => { cancelled = true; removeListeners(); };
  }, [available]);
